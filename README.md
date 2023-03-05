@@ -57,6 +57,8 @@ object SquareFactory : ShapeFactory() {
 Creational design pattern that lets you produce families of related objects without specifying their concrete classes.
 
 ````kotlin
+interface Button
+
 class WinButton : Button
 class MacButton : Button
 
