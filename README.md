@@ -8,6 +8,7 @@ way to solve common problems and improve the overall quality, maintainability, a
 
 - [Creational Patterns](#creational-patterns)
     - [Factory Method](#factory-method)
+    - [Abstract Factory](#abstract-factory)
 - [Structural Patterns](#structural-patterns)
 - [Behavioral Patterns](#behavioral-patterns)
 
@@ -22,32 +23,73 @@ The factory pattern takes out the responsibility of instantiating a object from 
 
 ````kotlin
 interface Shape {
-  fun draw()
+    fun draw()
 }
 
 class Circle : Shape {
-  override fun draw() {
-    println("Draw circle")
-  }
+    override fun draw() {
+        println("Draw circle")
+    }
 }
 
 class Square : Shape {
-  override fun draw() {
-    println("Draw square")
-  }
+    override fun draw() {
+        println("Draw square")
+    }
 }
 
 abstract class ShapeFactory {
-  abstract fun createShape(): Shape
+    abstract fun createShape(): Shape
 }
 
 object CircleFactory : ShapeFactory() {
-  override fun createShape() = Circle()
+    override fun createShape() = Circle()
 
 }
 
 object SquareFactory : ShapeFactory() {
-  override fun createShape() = Square()
+    override fun createShape() = Square()
+}
+````
+
+### Abstract Factory
+
+Creational design pattern that lets you produce families of related objects without specifying their concrete classes.
+
+````kotlin
+class WinButton : Button
+class MacButton : Button
+
+interface Checkbox
+
+class WinCheckbox : Checkbox
+class MacCheckbox : Checkbox
+
+enum class System {
+    Mac,
+    Windows
+}
+
+interface GUIFactory {
+    fun createButton(): Button
+    fun creteCheckbox(): Checkbox
+
+    companion object {
+        fun createFactory(os: System) = when (os) {
+            System.Mac -> MacFactory()
+            System.Windows -> WinFactory()
+        }
+    }
+}
+
+class WinFactory : GUIFactory {
+    override fun createButton() = WinButton()
+    override fun creteCheckbox() = WinCheckbox()
+}
+
+class MacFactory : GUIFactory {
+    override fun createButton(): Button = MacButton()
+    override fun creteCheckbox(): Checkbox = MacCheckbox()
 }
 ````
 

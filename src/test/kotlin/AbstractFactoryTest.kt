@@ -1,41 +1,53 @@
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-interface Plant
+interface Button
 
-class OrangePlant : Plant
+class WinButton : Button
+class MacButton : Button
 
-class ApplePlant : Plant
+interface Checkbox
 
-abstract class PlantFactory {
+class WinCheckbox : Checkbox
+class MacCheckbox : Checkbox
 
-    abstract fun makePlant(): Plant
+enum class System {
+    Mac,
+    Windows
+}
+
+interface GUIFactory {
+    fun createButton(): Button
+    fun creteCheckbox(): Checkbox
 
     companion object {
-        inline fun <reified T : Plant> createFactory(): PlantFactory =
-            when (T::class) {
-                OrangePlant::class -> OrangeFactory()
-                ApplePlant::class -> AppleFactory()
-                else -> throw IllegalArgumentException()
-            }
+        fun createFactory(os: System) = when (os) {
+            System.Mac -> MacFactory()
+            System.Windows -> WinFactory()
+        }
     }
 }
 
-class AppleFactory : PlantFactory() {
-    override fun makePlant(): Plant = ApplePlant()
+class WinFactory : GUIFactory {
+    override fun createButton() = WinButton()
+    override fun creteCheckbox() = WinCheckbox()
 }
 
-class OrangeFactory : PlantFactory() {
-    override fun makePlant(): Plant = OrangePlant()
+class MacFactory : GUIFactory {
+    override fun createButton(): Button = MacButton()
+    override fun creteCheckbox(): Checkbox = MacCheckbox()
 }
+
 
 class AbstractFactoryTest {
 
     @Test
     fun `Abstract Factory`() {
-        val plantFactory = PlantFactory.createFactory<OrangePlant>()
-        val plant = plantFactory.makePlant()
+        val winFactory = GUIFactory.createFactory(System.Windows)
+        val button = winFactory.createButton()
+        val checkbox = winFactory.creteCheckbox()
 
-        assertEquals(OrangePlant::class, plant::class)
+        assertEquals(WinButton::class, button::class)
+        assertEquals(WinCheckbox::class, checkbox::class)
     }
 }
