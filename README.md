@@ -56,6 +56,8 @@ object SquareFactory : ShapeFactory() {
 
 Creational design pattern that lets you produce families of related objects without specifying their concrete classes.
 
+#### Example
+
 ````kotlin
 interface Button
 
@@ -93,6 +95,14 @@ class MacFactory : GUIFactory {
     override fun createButton(): Button = MacButton()
     override fun creteCheckbox(): Checkbox = MacCheckbox()
 }
+````
+
+#### Usage
+
+````kotlin
+val winFactory = GUIFactory.createFactory(System.Windows)
+val button = winFactory.createButton()
+val checkbox = winFactory.creteCheckbox()
 ````
 
 ## Structural Patterns
