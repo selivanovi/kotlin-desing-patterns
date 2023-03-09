@@ -21,6 +21,8 @@ suitable to the situation.
 
 The factory pattern takes out the responsibility of instantiating a object from the class to a Factory class.
 
+#### Example
+
 ````kotlin
 interface Shape {
     fun draw()
@@ -50,6 +52,13 @@ object CircleFactory : ShapeFactory() {
 object SquareFactory : ShapeFactory() {
     override fun createShape() = Square()
 }
+````
+
+#### Usage
+
+````kotlin
+val circle = CircleFactory.createShape()
+val square = SquareFactory.createShape()
 ````
 
 ### Abstract Factory
