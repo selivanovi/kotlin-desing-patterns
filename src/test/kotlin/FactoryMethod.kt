@@ -2,47 +2,57 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 interface Shape {
+
+    val type: String
+
     fun draw()
-}
-
-class Circle : Shape {
-    override fun draw() {
-        println("Draw circle")
-    }
-}
-
-class Square : Shape {
-    override fun draw() {
-        println("Draw square")
-    }
 }
 
 abstract class ShapeFactory {
     abstract fun createShape(): Shape
 }
 
-object CircleFactory : ShapeFactory() {
-    override fun createShape() = Circle()
+class CircleFactory : ShapeFactory() {
 
+    private class Circle : Shape {
+
+        override val type: String = "CIRCLE"
+
+        override fun draw() {
+            println("Draw circle")
+        }
+    }
+
+    override fun createShape(): Shape = Circle()
 }
 
-object SquareFactory : ShapeFactory() {
-    override fun createShape() = Square()
+class SquareFactory : ShapeFactory() {
+
+    private class Square : Shape {
+
+        override val type: String = "SQUARE"
+
+        override fun draw() {
+            println("Draw square")
+        }
+    }
+
+    override fun createShape(): Shape = Square()
 }
 
 class FactoryMethodTest {
 
     @Test
     fun `Circle Factory`() {
-        val circle = CircleFactory.createShape()
+        val circle = CircleFactory().createShape()
 
-        assertEquals(Circle::class, circle::class)
+        assertEquals("CIRCLE", circle.type)
     }
 
     @Test
     fun `Square Factory`() {
-        val square = SquareFactory.createShape()
+        val square = SquareFactory().createShape()
 
-        assertEquals(Square::class, square::class)
+        assertEquals("SQUARE", square.type)
     }
 }
